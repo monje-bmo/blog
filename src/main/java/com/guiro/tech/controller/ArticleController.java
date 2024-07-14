@@ -3,11 +3,16 @@ package com.guiro.tech.controller;
 import com.guiro.tech.dto.ArticleDto;
 import com.guiro.tech.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 @RestController
 @RequestMapping("/articule")
@@ -33,5 +38,15 @@ public class ArticleController {
         return ResponseEntity.ok(getArticle);
 
     }
+
+
+    @GetMapping
+    public ResponseEntity<Page<ArticleDto>> getAllArticles(@PageableDefault(size = 2, sort = "id") Pageable pageable) {
+        var articles = articleService.getAllArticle(pageable);
+        return ResponseEntity.ok(articles);
+    }
+
+
+
 
 }
