@@ -15,4 +15,9 @@ public interface ArticleService {
     ArticleDto getArticleById(int id);
 
     Page<ArticleDto> getAllArticle(Pageable pageable);
+
+    ArticleDto updateArticle(int id, ArticleDto articleDto);
+
+    void deleteArticle(int id);
+
 }

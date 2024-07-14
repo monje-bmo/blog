@@ -1,6 +1,7 @@
 package com.guiro.tech.controller;
 
 import com.guiro.tech.dto.ArticleDto;
+import com.guiro.tech.dto.ResponseDto;
 import com.guiro.tech.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -12,10 +13,11 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/articule")
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired
@@ -32,9 +34,9 @@ public class ArticleController {
 
     // path/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<ArticleDto> getArticleById(@PathVariable int id) {
+    public ResponseEntity<ArticleDto> getArticleById(@PathVariable("id") int id) {
 
-        ArticleDto getArticle =  articleService.getArticleById(id);
+        ArticleDto getArticle = articleService.getArticleById(id);
         return ResponseEntity.ok(getArticle);
 
     }
@@ -46,7 +48,19 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ArticleDto> updateArticle(@RequestBody ArticleDto art,
+                                                    @PathVariable("id") int id) {
+        var articleUpdate = articleService.updateArticle(id, art);
+        return ResponseEntity.ok(articleUpdate);
+    }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto> deletearticle(@PathVariable("id") int id) {
+        articleService.deleteArticle(id);
+        return ResponseEntity.ok(new ResponseDto("Article delete successfully, with id :" + id));
+    }
 
 
 }

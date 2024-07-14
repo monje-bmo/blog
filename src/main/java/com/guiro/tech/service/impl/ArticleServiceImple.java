@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,29 @@ public class ArticleServiceImple implements ArticleService {
         Page<ArticleEntity> articleEntities = repo.findAll(pageable);
 
         return articleEntities.map(ArticleMapper::mapToArticle);
+    }
+
+    @Override
+    public ArticleDto updateArticle(int id, ArticleDto articleDto) {
+        ArticleEntity article = repo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Article is not exists with given id: " + id)
+        );
+
+        article.setTitle(articleDto.getTitle());
+        article.setContent(articleDto.getContent());
+        article.setLink(articleDto.getLink());
+        ArticleEntity updatedArticle = repo.save(article);
+
+        return ArticleMapper.mapToArticle(updatedArticle);
+    }
+
+    @Override
+    public void deleteArticle(int id) {
+        ArticleEntity article = repo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Article is not exists with give id : " + id)
+        );
+
+        repo.delete(article);
     }
 
 
