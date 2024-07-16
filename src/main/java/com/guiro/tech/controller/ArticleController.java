@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 public class ArticleController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class ArticleController {
     public ResponseEntity<ArticleDto> createArticle(@RequestBody ArticleDto art) {
 
         ArticleDto created = articleService.createArticle(art);
-        UriComponents uri = UriComponentsBuilder.fromPath("localhost:8080/articule/{id}").buildAndExpand(created.getId());
+        UriComponents uri = UriComponentsBuilder.fromPath("localhost:8080/api/article/{id}").buildAndExpand(created.getId());
         return ResponseEntity.created(uri.toUri()).body(created);
 
     }
