@@ -3,6 +3,7 @@ package com.guiro.tech.controller;
 import com.guiro.tech.dto.ArticleDto;
 import com.guiro.tech.dto.ResponseDto;
 import com.guiro.tech.service.ArticleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
@@ -18,12 +19,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/article")
+@RequiredArgsConstructor
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
 
-    @PostMapping
+    @PostMapping(value= "/create")
     public ResponseEntity<ArticleDto> createArticle(@RequestBody ArticleDto art) {
 
         ArticleDto created = articleService.createArticle(art);
